@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.*;
 
 public class Main {
@@ -16,10 +18,10 @@ public class Main {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JTextField inputText = new JTextField(20);
-        JTextField keyText = new JTextField(20);
-        JTextField keyIntText = new JTextField(20);
-        JTextField out = new JTextField(40);
+        JTextArea inputText = new JTextArea(2,20);
+        JTextArea keyText = new JTextArea(2,20);
+        JTextArea keyIntText = new JTextArea(2,20);
+        JTextArea out = new JTextArea(2,40);
         out.setEditable(false);
 
         JButton encryptButton = new JButton("Encrypt");
@@ -40,6 +42,17 @@ public class Main {
         panel.add(buttonPanel);
         panel.add(new JLabel("Ouput:"));
         panel.add(out);
+
+        inputText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Verifică dacă tasta apăsată este Enter
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    // Adaugă un nou rând la textul din câmpul de text
+                    inputText.setText(inputText.getText() + "\n");
+                }
+            }
+        });
 
         file.addActionListener(new ActionListener() {
             @Override
