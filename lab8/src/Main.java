@@ -24,11 +24,13 @@ public class Main {
         JTextArea out = new JTextArea(2,40);
         out.setEditable(false);
 
+        JButton reset = new JButton("Reset");
         JButton encryptButton = new JButton("Encrypt");
         JButton decryptButton = new JButton("Decrypt");
         JCheckBox file = new JCheckBox("Load file");
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.add(reset);
         buttonPanel.add(encryptButton);
         buttonPanel.add(decryptButton);
         buttonPanel.add(file);
@@ -42,6 +44,16 @@ public class Main {
         panel.add(buttonPanel);
         panel.add(new JLabel("Ouput:"));
         panel.add(out);
+
+        reset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                out.setText("");
+                inputText.setText("");
+                keyText.setText("");
+                keyIntText.setText("");
+            }
+        });
 
         inputText.addKeyListener(new KeyAdapter() {
             @Override
@@ -104,10 +116,6 @@ public class Main {
                     return;
                 }
                 Encryption encrypt = new Encryption();
-                out.setText("");
-                inputText.setText("");
-                keyText.setText("");
-                keyIntText.setText("");
                 out.setText(encrypt.Encrypt(map_in,key,map));
                 inputText.setEditable(true);
                 file.setSelected(false);
@@ -134,10 +142,6 @@ public class Main {
                     return;
                 }
                 Encryption encrypt = new Encryption();
-                out.setText("");
-                inputText.setText("");
-                keyText.setText("");
-                keyIntText.setText("");
                 out.setText(encrypt.Decrypt(map_in,key,map));
                 inputText.setEditable(true);
                 file.setSelected(false);
