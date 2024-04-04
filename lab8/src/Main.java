@@ -52,6 +52,7 @@ public class Main {
                 inputText.setText("");
                 keyText.setText("");
                 keyIntText.setText("");
+                inputText.setEditable(true);
             }
         });
 
