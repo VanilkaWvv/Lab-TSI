@@ -18,10 +18,10 @@ public class Main {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JTextArea inputText = new JTextArea(2,20);
-        JTextArea keyText = new JTextArea(2,20);
-        JTextArea keyIntText = new JTextArea(2,20);
-        JTextArea out = new JTextArea(2,40);
+        JTextArea inputText = new JTextArea(7, 20);
+        JTextArea keyText = new JTextArea(4, 20);
+        JTextArea keyIntText = new JTextArea(4, 20);
+        JTextArea out = new JTextArea(7, 40);
         out.setEditable(false);
 
         JButton reset = new JButton("Reset");
@@ -36,14 +36,14 @@ public class Main {
         buttonPanel.add(file);
 
         panel.add(new JLabel("Input Text:"));
-        panel.add(inputText);
+        panel.add(new JScrollPane(inputText));
         panel.add(new JLabel("Text Key:"));
         panel.add(keyText);
         panel.add(new JLabel("Key:"));
         panel.add(keyIntText);
         panel.add(buttonPanel);
-        panel.add(new JLabel("Ouput:"));
-        panel.add(out);
+        panel.add(new JLabel("Output:"));
+        panel.add(new JScrollPane(out));
 
         reset.addActionListener(new ActionListener() {
             @Override
@@ -58,12 +58,11 @@ public class Main {
 
         inputText.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                // Verifică dacă tasta apăsată este Enter
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    // Adaugă un nou rând la textul din câmpul de text
-                    inputText.setText(inputText.getText() + "\n");
+            public void keyTyped(KeyEvent e) {
+                if (inputText.getText().length() >= inputText.getDocument().getLength() && file.isSelected()) {
+                    inputText.append("\n");
                 }
+                if(e.getKeyChar() == KeyEvent.VK_ENTER) inputText.append("\n");
             }
         });
 
@@ -72,19 +71,18 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 if (file.isSelected()) {
                     JFileChooser fileChooser = new JFileChooser();
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("Fișiere text (*.txt)", "txt");
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (*.txt)", "txt");
                     fileChooser.setFileFilter(filter);
                     StringBuilder content = new StringBuilder();
 
                     int result = fileChooser.showOpenDialog(null);
                     if (result == JFileChooser.APPROVE_OPTION) {
-                        java.io.File selectedFile = fileChooser.getSelectedFile();
-                        File file = new File(selectedFile.getAbsolutePath());
+                        File selectedFile = fileChooser.getSelectedFile();
 
-                        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                        try (BufferedReader br = new BufferedReader(new FileReader(selectedFile))) {
                             String line;
                             while ((line = br.readLine()) != null) {
-                                content.append(line);
+                                content.append(line).append("\n");
                             }
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -105,19 +103,18 @@ public class Main {
                 String keyint = keyIntText.getText();
                 if (!keyint.isBlank() && !keyint.matches(".*[a-zA-Z].*")) {
                     key = Integer.parseInt(keyint);
-                } else key=0;
+                } else key = 0;
 
-                if(map_in.isBlank() || key < 1 || key > 25)
-                {
-                    JOptionPane.showMessageDialog(panel, "Nu ai introdus Textul sau keya corect");
+                if (map_in.isBlank() || key < 1 || key > 25) {
+                    JOptionPane.showMessageDialog(panel, "You haven't entered the Text or Key correctly");
                     return;
                 }
-                if(map.length()<7 && !map.isBlank() || map.matches(".*\\d.*")) {
-                    JOptionPane.showMessageDialog(panel, "Lungimea la keie de tip text este mai mica decat 7 sau contine numere");
+                if (map.length() < 7 && !map.isBlank() || map.matches(".*\\d.*")) {
+                    JOptionPane.showMessageDialog(panel, "The length of the text key is less than 7 or contains numbers");
                     return;
                 }
                 Encryption encrypt = new Encryption();
-                out.setText(encrypt.Encrypt(map_in,key,map));
+                out.setText(encrypt.Encrypt(map_in, key, map));
                 inputText.setEditable(true);
                 file.setSelected(false);
             }
@@ -132,18 +129,17 @@ public class Main {
                 String keyint = keyIntText.getText();
                 if (!keyint.isBlank() && !keyint.matches(".*[a-zA-Z].*")) {
                     key = Integer.parseInt(keyint);
-                } else key=0;
-                if(map_in.isBlank() || key < 1 || key > 25)
-                {
-                    JOptionPane.showMessageDialog(panel, "Nu ai introdus Textul sau keya");
+                } else key = 0;
+                if (map_in.isBlank() || key < 1 || key > 25) {
+                    JOptionPane.showMessageDialog(panel, "You haven't entered the Text or Key correctly");
                     return;
                 }
-                if(map.length()<7 && !map.isBlank()|| map.matches(".*\\d.*")) {
-                    JOptionPane.showMessageDialog(panel, "Lungimea la keie de tip text este mai mica decat 7 sau contine numere");
+                if (map.length() < 7 && !map.isBlank() || map.matches(".*\\d.*")) {
+                    JOptionPane.showMessageDialog(panel, "The length of the text key is less than 7 or contains numbers");
                     return;
                 }
                 Encryption encrypt = new Encryption();
-                out.setText(encrypt.Decrypt(map_in,key,map));
+                out.setText(encrypt.Decrypt(map_in, key, map));
                 inputText.setEditable(true);
                 file.setSelected(false);
             }
