@@ -26,10 +26,12 @@ public static void bruteForceAttack(String encryptedText, JTextArea out, JButton
         System.out.println(STR."Index\{index[i]}");
     }
     out.setText(decryptedString[index[0]]);
+    numberOfLetters(decryptedString[index[0]]);
         yesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Cheia este:"+index[k[0]]);
+                k[0]=0;
             }
         });
 
@@ -38,19 +40,18 @@ public static void bruteForceAttack(String encryptedText, JTextArea out, JButton
             public void actionPerformed(ActionEvent e) {
                 k[0]++;
                 out.setText(decryptedString[index[k[0]]]);
+                clearConsole();
+                numberOfLetters(decryptedString[index[k[0]]]);
             }
         });
 }
 
-    // Metoda pentru decriptarea textului cu o cheie dată
     private static String decryptWithKey(String encryptedText, int key, String keyText) {
         Encryption encryption = new Encryption();
         return encryption.Decrypt(encryptedText, key, keyText);
     }
 
-    // Metodă pentru calcularea scorului textului decriptat
     private static double scoreText(String text) {
-        // Frecvența literelor în limba engleză
         Map<Character, Double> englishFreq = new HashMap<>();
         englishFreq.put('a', 8.2);
         englishFreq.put('b', 1.5);
@@ -88,5 +89,28 @@ public static void bruteForceAttack(String encryptedText, JTextArea out, JButton
             }
         }
         return score;
+    }
+    private static void numberOfLetters(String text){
+    String txt = text.replace(" ","");
+        System.out.println(txt.length());
+    int[] frecventa = frequency(text);
+        for (int i = 0; i < 26; i++) {
+            double score;
+            if(frecventa[i] == 0) score=0; else score= (double) frecventa[i] /txt.length()*100;
+            System.out.println("Caracterul '" + (char) (i + 'a') + "' apare de " + frecventa[i] + " ori cu procentajul de "+ score);
+        }
+    }
+    private static int[] frequency(String str) {
+        int[] frecv = new int[26];
+        for (char c : str.toCharArray()) {
+            if (c >= 'a' && c <= 'z') {
+                frecv[c - 'a']++;
+            }
+        }
+        return frecv;
+    }
+    private static void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
