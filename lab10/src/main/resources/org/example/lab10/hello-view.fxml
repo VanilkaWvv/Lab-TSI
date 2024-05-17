@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="450.0" maxWidth="350.0" minHeight="300.0" minWidth="300.0" prefHeight="450.0" prefWidth="350.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab10.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label text="Insert text to process" translateY="75.0" />
+    <TextArea fx:id="input" maxHeight="100.0" minHeight="75.0" prefHeight="100.0" prefRowCount="3" translateY="55.0" />
+    <Label text="Insert key to process" translateY="50.0" />
+    <TextArea fx:id="key" translateY="35.0" />
+    <Button onAction="#encrypt" text="Encrypt" translateX="-75.0" translateY="45.0" />
+    <Button onAction="#atack" text="Atack" />
+   <Button mnemonicParsing="false" onAction="#decrypt" text="Decrypt" translateX="75.0" translateY="-45.0" />
+    <Label text="Text after processing" translateY="-50.0" />
+    <TextArea fx:id="output" minHeight="75.0" translateY="-65.0" />
+    <Label text="Key after atack" translateY="-75.0" />
+    <TextArea fx:id="keyAfterAtack" translateY="-90.0" />
+</VBox>
